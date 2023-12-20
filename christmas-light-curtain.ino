@@ -20,6 +20,8 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(OUTPUT_PIN, OUTPUT);
 
+  digitalWrite(OUTPUT_PIN, HIGH);
+
   int temp = EEPROM.read(0);
   if (temp >= MODES || temp < 0) {
     mode = 0;
@@ -27,10 +29,8 @@ void setup() {
   } else {
     mode = temp;
   }
-
-  delay(1000);
   
-  for (int i = 0; i < mode; mode++) {
+  for (int i = 0; i < mode; i++) {
     nextMode();
   }
 
@@ -43,7 +43,7 @@ void loop() {
   if (lastButtonState != buttonState) {
     delay(50);
 
-    if (lastButtonState == LOW && buttonState == HIGH) {
+    if (lastButtonState == HIGH && buttonState == LOW) {
       nextMode();
       mode += 1;
       if (mode >= MODES) {
